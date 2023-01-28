@@ -540,6 +540,8 @@ auto next_t(Reader &r) -> void {
     }
 
     case DQuote: {
+      change_last_t(r, Tok::LitStr); // As of now, double quotes can only support string literals
+      
       auto _ = defer([&r]() { r.state = Start; });
       for (; r.state != Eof;) {
         switch (curr_c(r)) {
@@ -549,11 +551,9 @@ auto next_t(Reader &r) -> void {
         }
 
         case '"': {
-
           next_c(r);
           end_t(r, curr_t(r));
-
-          return; // NOLINT
+          return;
         }
         }
       }
@@ -566,30 +566,32 @@ auto next_t(Reader &r) -> void {
 }
 
 [[nodiscard]] auto Reader::from(const char *_fname) noexcept
-    -> Result<Reader, std::string> {
-  auto fd = std::fopen(_fname, "r"); // NOLINT
+    -> Result<Reader, ReaderError> {
+  auto reader = Reader{.fname = _fname};
+
+  auto fd = std::fopen(reader.fname, "r"); // NOLINT
   if (fd == nullptr) {
-    return {std::string{"Unable to open file."}};
+    return {ReaderError::from(&reader, ReaderError::NotFound)};
   }
   auto _ = exl::defer([&fd]() { std::fclose(fd); });
 
   std::fseek(fd, 0, SEEK_END);
 
-  auto size = static_cast<usize>(std::ftell(fd) + 1);
-  auto contents = new (std::nothrow) char[size]; // NOLINT
-  if (contents == nullptr) {
-    return {std::string{"Error reading file"}};
+  reader.size = static_cast<usize>(std::ftell(fd) + 1);
+
+  reader.contents = new (std::nothrow) char[reader.size]; // NOLINT
+  if (reader.contents == nullptr) {
+    return {ReaderError::from(&reader, ReaderError::UnexpectedEof)};
   }
 
   std::fseek(fd, 0, SEEK_SET);
 
-  std::fread(contents, size - 1, sizeof(char), fd);
+  std::fread(reader.contents, reader.size - 1, sizeof(char), fd);
   if (std::ferror(fd)) {
-    return {std::string{"Error reading file"}};
+    return {ReaderError::from(&reader, ReaderError::Read)};
   }
-  contents[size] = 0; // NOLINT
-
-  return Reader{.size = size, .fname = _fname, .contents = contents};
+  reader.contents[reader.size] = 0; // NOLINT
+  return {reader};
 }
 
 } // namespace Tokenizer

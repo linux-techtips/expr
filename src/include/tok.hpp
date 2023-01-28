@@ -124,10 +124,20 @@ enum Id : u8 {
 };
 
 struct Token {
+  using Self = Token;
+
   Id id{};
   usize start{};
   usize end{};
-  Slice<const char> str;
+  Slice<const char> str{};
+
+  [[nodiscard]] constexpr auto from(const Id _id, const usize _start,
+                                    const usize _end, const char *_ptr,
+                                    const usize _cap) {
+    return Self(_id, _start, _end, _ptr, _cap);
+  }
+
+  [[nodiscard]] constexpr explicit Token() = default;
 
   [[nodiscard]] constexpr explicit Token(const Id _id, const usize _start,
                                          const usize _end, const char *_ptr,

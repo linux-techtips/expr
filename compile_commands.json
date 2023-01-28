@@ -2,7 +2,6 @@
   {
     "arguments": [
       "/usr/bin/c++",
-      "-I/home/m3rlin/Code/expr/src/include",
       "-I/home/m3rlin/Code/expr/exprlib/src/../include",
       "-I/home/m3rlin/Code/expr/build/_deps/fmtlib-src/include",
       "-g",
@@ -15,33 +14,11 @@
       "-std=gnu++20",
       "-c",
       "-o",
-      "src/CMakeFiles/expr.dir/entry.cpp.o",
-      "/home/m3rlin/Code/expr/src/entry.cpp"
+      "src/CMakeFiles/expr_lib.dir/parser.cpp.o",
+      "/home/m3rlin/Code/expr/src/parser.cpp"
     ],
     "directory": "/home/m3rlin/Code/expr/build",
-    "file": "/home/m3rlin/Code/expr/src/entry.cpp",
-    "output": "/home/m3rlin/Code/expr/build/src/CMakeFiles/expr.dir/entry.cpp.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/c++",
-      "-I/home/m3rlin/Code/expr/exprlib/src/../include",
-      "-I/home/m3rlin/Code/expr/build/_deps/fmtlib-src/include",
-      "-g",
-      "-export-dynamic",
-      "-O3",
-      "-D_GNU_SOURCE",
-      "-D__STDC_CONSTANT_MACROS",
-      "-D__STDC_FORMAT_MACROS",
-      "-D__STDC_LIMIT_MACROS",
-      "-std=gnu++20",
-      "-c",
-      "-o",
-      "src/CMakeFiles/expr_lib.dir/entry.cpp.o",
-      "/home/m3rlin/Code/expr/src/entry.cpp"
-    ],
-    "directory": "/home/m3rlin/Code/expr/build",
-    "file": "/home/m3rlin/Code/expr/src/entry.cpp",
-    "output": "/home/m3rlin/Code/expr/build/src/CMakeFiles/expr_lib.dir/entry.cpp.o"
+    "file": "/home/m3rlin/Code/expr/src/parser.cpp",
+    "output": "/home/m3rlin/Code/expr/build/src/CMakeFiles/expr_lib.dir/parser.cpp.o"
   }
 ]
