@@ -1,21 +1,5 @@
-*.dylib
-*.dll
+target/
 
-# Fortran module files
-*.mod
-*.smod
+Cargo.lock
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-# Cmake
-build
-.cache
+*.pdb
