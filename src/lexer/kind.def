@@ -1,0 +1,58 @@
+// Used as a catch-all to define behavior for any token.
+#ifndef TOKEN
+#define TOKEN(Name)
+#endif
+
+// Used to define tokens that don't have a spelling, but
+// require size information for the lexing phase.
+#ifndef TOKEN_SIZED
+#define TOKEN_SIZED(Name, Size) TOKEN(Name)
+#endif
+
+// Used to define literals that have unique lexical rules
+// but do not have a concrete `Spelling`
+#ifndef TOKEN_LITERAL
+#define TOKEN_LITERAL(Name) TOKEN(Name)
+#endif
+
+// Used to determine symbolic expressions with a concrete
+// `Spelling`
+#ifndef TOKEN_SYMBOL
+#define TOKEN_SYMBOL(Name, Spelling) TOKEN(Name)
+#endif
+
+#ifndef TOKEN_GROUP
+#define TOKEN_GROUP(Name, Spelling, Alt) TOKEN_SYMBOL(Name, Spelling)
+#endif
+
+#ifndef TOKEN_GROUP_OPEN
+#define TOKEN_GROUP_OPEN(Name, Spelling, Close) TOKEN_GROUP(Name, Spelling, Close)
+#endif
+
+#ifndef TOKEN_GROUP_CLOSE
+#define TOKEN_GROUP_CLOSE(Name, Spelling, Open) TOKEN_GROUP(Name, Spelling, Open)
+#endif
+
+// NOTE: Invalid is special and must be the first token.
+TOKEN(Invalid)
+
+TOKEN_SIZED(EndOfFile, 1)
+TOKEN_SIZED(Newline, 1)
+
+TOKEN_LITERAL(Real)
+
+TOKEN_SYMBOL(Add, "+")
+TOKEN_SYMBOL(Sub, "-")
+TOKEN_SYMBOL(Mul, "*")
+TOKEN_SYMBOL(Div, "/")
+
+TOKEN_GROUP_OPEN(OpenParen, "(", CloseParen)
+TOKEN_GROUP_CLOSE(CloseParen, ")", OpenParen)
+
+#undef TOKEN
+#undef TOKEN_LITERAL
+#undef TOKEN_SIZED
+#undef TOKEN_SYMBOL
+#undef TOKEN_GROUP
+#undef TOKEN_GROUP_OPEN
+#undef TOKEN_GROUP_CLOSE
